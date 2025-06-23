@@ -28,26 +28,48 @@
 
   <button onclick="sendMood()">Send Mood</button>
 
-  <script>
-    // Live update text next to sliders
-    const sliders = ['happiness', 'energy', 'calmness', 'pain'];
-    sliders.forEach(id => {
-      document.getElementById(id).addEventListener('input', e => {
-        document.getElementById(`${id}-value`).textContent = e.target.value;
-      });
-    });
+ <!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
-    // When "Send Mood" is clicked
-    function sendMood() {
-      const data = {
-        happiness: document.getElementById('happiness').value,
-        energy: document.getElementById('energy').value,
-        calmness: document.getElementById('calmness').value,
-        pain: document.getElementById('pain').value
-      };
-      console.log('Mood data:', data); // Later we'll replace this with a send to server or Firebase
-      alert("Mood sent (not saved yet — Step 2 will handle that).");
-    }
-  </script>
+<script>
+  // Paste your actual config here
+  const firebaseConfig = {
+    apiKey: "...",
+    authDomain: "...",
+    databaseURL: "https://carpet-mood-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "...",
+    storageBucket: "...",
+    messagingSenderId: "...",
+    appId: "..."
+  };
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+
+  // Save mood data on button click
+  function sendMood() {
+    const data = {
+      happiness: document.getElementById('happiness').value,
+      energy: document.getElementById('energy').value,
+      calmness: document.getElementById('calmness').value,
+      pain: document.getElementById('pain').value,
+      timestamp: Date.now()
+    };
+
+    firebase.database().ref('mood').set(data)
+      .then(() => alert("Mood sent to Firebase!"))
+      .catch(err => alert("Error: " + err));
+  }
+
+  // Live update display text
+  ['happiness', 'energy', 'calmness', 'pain'].forEach(id => {
+    document.getElementById(id).addEventListener('input', e => {
+      document.getElementById(`${id}-value`).textContent = e.target.value;
+    });
+  });
+</script>
+
 </body>
 </html>
