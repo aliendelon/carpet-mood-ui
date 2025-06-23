@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mood Input</title>
+  <style>
+    body { font-family: sans-serif; max-width: 500px; margin: 40px auto; padding: 20px; }
+    h2 { text-align: center; }
+    label { display: block; margin-top: 20px; }
+    input[type="range"] { width: 100%; }
+    button { margin-top: 30px; padding: 10px 20px; font-size: 16px; }
+  </style>
+</head>
+<body>
+  <h2>Enter Your Mood</h2>
+
+  <label>Happiness: <span id="happiness-value">50</span></label>
+  <input type="range" id="happiness" min="0" max="100" value="50">
+
+  <label>Energy: <span id="energy-value">50</span></label>
+  <input type="range" id="energy" min="0" max="100" value="50">
+
+  <label>Calmness: <span id="calmness-value">50</span></label>
+  <input type="range" id="calmness" min="0" max="100" value="50">
+
+  <label>Pain Level: <span id="pain-value">0</span></label>
+  <input type="range" id="pain" min="0" max="100" value="0">
+
+  <button onclick="sendMood()">Send Mood</button>
+
+  <script>
+    // Live update text next to sliders
+    const sliders = ['happiness', 'energy', 'calmness', 'pain'];
+    sliders.forEach(id => {
+      document.getElementById(id).addEventListener('input', e => {
+        document.getElementById(`${id}-value`).textContent = e.target.value;
+      });
+    });
+
+    // When "Send Mood" is clicked
+    function sendMood() {
+      const data = {
+        happiness: document.getElementById('happiness').value,
+        energy: document.getElementById('energy').value,
+        calmness: document.getElementById('calmness').value,
+        pain: document.getElementById('pain').value
+      };
+      console.log('Mood data:', data); // Later we'll replace this with a send to server or Firebase
+      alert("Mood sent (not saved yet — Step 2 will handle that).");
+    }
+  </script>
+</body>
+</html>
