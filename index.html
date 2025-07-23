@@ -8,7 +8,8 @@
     h2 { text-align: center; }
     label { display: block; margin-top: 20px; }
     input[type="range"] { width: 100%; }
-    button { margin-top: 30px; padding: 10px 20px; font-size: 16px; }
+    button, .night-toggle { margin-top: 30px; padding: 10px 20px; font-size: 16px; }
+    .night-toggle { display: flex; align-items: center; gap: 10px; }
   </style>
 </head>
 <body>
@@ -28,48 +29,57 @@
 
   <button onclick="sendMood()">Send Mood</button>
 
- <!-- Firebase SDKs -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <div class="night-toggle">
+    <label for="night">🌙 Night Mode:</label>
+    <input type="checkbox" id="night" onchange="toggleNightMode()">
+  </div>
 
-<script>
-  // Paste your actual config here
-  const firebaseConfig = {
-    apiKey: "...",
-    authDomain: "...",
-    databaseURL: "https://carpet-mood-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "...",
-    storageBucket: "...",
-    messagingSenderId: "...",
-    appId: "..."
-  };
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.database();
-
-  // Save mood data on button click
-  function sendMood() {
-    const data = {
-      happiness: document.getElementById('happiness').value,
-      energy: document.getElementById('energy').value,
-      calmness: document.getElementById('calmness').value,
-      pain: document.getElementById('pain').value,
-      timestamp: Date.now()
+  <script>
+    const firebaseConfig = {
+      apiKey: "...",
+      authDomain: "...",
+      databaseURL: "https://carpet-mood-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "...",
+      storageBucket: "...",
+      messagingSenderId: "...",
+      appId: "..."
     };
 
-    firebase.database().ref('mood').set(data)
-      .then(() => alert("Mood sent to Firebase!"))
-      .catch(err => alert("Error: " + err));
-  }
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
 
-  // Live update display text
-  ['happiness', 'energy', 'calmness', 'pain'].forEach(id => {
-    document.getElementById(id).addEventListener('input', e => {
-      document.getElementById(`${id}-value`).textContent = e.target.value;
+    function sendMood() {
+      const data = {
+        happiness: document.getElementById('happiness').value,
+        energy: document.getElementById('energy').value,
+        calmness: document.getElementById('calmness').value,
+        pain: document.getElementById('pain').value,
+        timestamp: Date.now()
+      };
+
+      db.ref('mood').set(data)
+        .then(() => alert("Mood sent to Firebase!"))
+        .catch(err => alert("Error: " + err));
+    }
+
+    function toggleNightMode() {
+      const isNight = document.getElementById('night').checked;
+      db.ref('night_override').set(isNight)
+        .then(() => console.log("🌙 Night override set to:", isNight))
+        .catch(err => console.error("Error setting night_override:", err));
+    }
+
+    // Live range updates
+    ['happiness', 'energy', 'calmness', 'pain'].forEach(id => {
+      document.getElementById(id).addEventListener('input', e => {
+        document.getElementById(`${id}-value`).textContent = e.target.value;
+      });
     });
-  });
-</script>
+  </script>
 
 </body>
 </html>
