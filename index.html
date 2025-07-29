@@ -69,8 +69,19 @@
       width: 100%;
     }
 
+    .layout-group {
+      margin-top: 20px;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+
+    .layout-group label {
+      display: inline-block;
+      margin-right: 10px;
+    }
+
     button {
-      margin-top: 30px;
+      margin-top: 20px;
       width: 100%;
       padding: 12px;
       font-size: 16px;
@@ -132,7 +143,15 @@
     <input type="range" id="pain" min="0" max="100" value="0" />
   </div>
 
-  <button onclick="sendMood()">📤 Send Mood</button>
+  <div class="layout-group">
+    Layout:
+    <label><input type="radio" name="layout" value="layout1" checked /> layout1</label>
+    <label><input type="radio" name="layout" value="layout2" /> layout2</label>
+    <label><input type="radio" name="layout" value="layout3" /> layout3</label>
+    <label><input type="radio" name="layout" value="layout4" /> layout4</label>
+  </div>
+
+  <button onclick="sendMood()">📤 Send Mood & Layout</button>
 
   <div class="night-toggle">
     <label for="night">🌙 Night Mode:</label>
@@ -171,6 +190,7 @@
     const db = firebase.database();
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     function sendMood() {
       const data = {
         happiness: document.getElementById('happiness').value,
@@ -202,7 +222,12 @@
 
 =======
     // === Send Mood to Firebase ===
+=======
+    // === Send Mood and Layout to Firebase ===
+>>>>>>> 5802ee8 (Update layout toggles in HTML UI)
     function sendMood() {
+      const selectedLayout = document.querySelector('input[name="layout"]:checked').value;
+
       const mood = {
         happiness: parseInt(document.getElementById("happiness").value),
         energy: parseInt(document.getElementById("energy").value),
@@ -211,9 +236,13 @@
         timestamp: Date.now()
       };
 
-      db.ref("mood")
-        .set(mood)
-        .then(() => alert("✅ Mood sent to Firebase!"))
+      // Send mood
+      db.ref("mood").set(mood)
+        .then(() => {
+          // Send layout
+          return db.ref("current_layout_name").set(selectedLayout);
+        })
+        .then(() => alert("✅ Mood and layout sent to Firebase!"))
         .catch((err) => alert("❌ Error: " + err));
     }
 
