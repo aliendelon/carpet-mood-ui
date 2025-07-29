@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<<<<<<< HEAD
   <meta charset="UTF-8">
   <title>Mood Input</title>
   <style>
@@ -32,6 +33,111 @@
   <div class="night-toggle">
     <label for="night">🌙 Night Mode:</label>
     <input type="checkbox" id="night" onchange="toggleNightMode()">
+=======
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mood Control Panel</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: #f8f8f8;
+      color: #333;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .slider-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    input[type="range"] {
+      width: 100%;
+    }
+
+    button {
+      margin-top: 30px;
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      background-color: #0066ff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #004fcc;
+    }
+
+    .night-toggle {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body {
+        background-color: #1a1a1a;
+        color: #ddd;
+      }
+
+      button {
+        background-color: #3399ff;
+      }
+
+      button:hover {
+        background-color: #227acc;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h2>🎛️ Mood Input Panel</h2>
+
+  <div class="slider-group">
+    <label for="happiness">Happiness: <span id="happiness-value">50</span></label>
+    <input type="range" id="happiness" min="0" max="100" value="50" />
+  </div>
+
+  <div class="slider-group">
+    <label for="energy">Energy: <span id="energy-value">50</span></label>
+    <input type="range" id="energy" min="0" max="100" value="50" />
+  </div>
+
+  <div class="slider-group">
+    <label for="calmness">Calmness: <span id="calmness-value">50</span></label>
+    <input type="range" id="calmness" min="0" max="100" value="50" />
+  </div>
+
+  <div class="slider-group">
+    <label for="pain">Pain Level: <span id="pain-value">0</span></label>
+    <input type="range" id="pain" min="0" max="100" value="0" />
+  </div>
+
+  <button onclick="sendMood()">📤 Send Mood</button>
+
+  <div class="night-toggle">
+    <label for="night">🌙 Night Mode:</label>
+    <input type="checkbox" id="night" onchange="toggleNightMode()" />
+>>>>>>> d3b4124 (🧹 Add Firebase credential file to .gitignore)
   </div>
 
   <!-- Firebase SDKs -->
@@ -39,6 +145,7 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
   <script>
+<<<<<<< HEAD
     const firebaseConfig = {
       apiKey: "...",
       authDomain: "...",
@@ -47,11 +154,23 @@
       storageBucket: "...",
       messagingSenderId: "...",
       appId: "..."
+=======
+    // === Firebase Config ===
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      databaseURL: "https://carpet-mood-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_BUCKET",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+>>>>>>> d3b4124 (🧹 Add Firebase credential file to .gitignore)
     };
 
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
+<<<<<<< HEAD
     function sendMood() {
       const data = {
         happiness: document.getElementById('happiness').value,
@@ -81,5 +200,41 @@
     });
   </script>
 
+=======
+    // === Send Mood to Firebase ===
+    function sendMood() {
+      const mood = {
+        happiness: parseInt(document.getElementById("happiness").value),
+        energy: parseInt(document.getElementById("energy").value),
+        calmness: parseInt(document.getElementById("calmness").value),
+        pain: parseInt(document.getElementById("pain").value),
+        timestamp: Date.now()
+      };
+
+      db.ref("mood")
+        .set(mood)
+        .then(() => alert("✅ Mood sent to Firebase!"))
+        .catch((err) => alert("❌ Error: " + err));
+    }
+
+    // === Toggle Night Override ===
+    function toggleNightMode() {
+      const isNight = document.getElementById("night").checked;
+      db.ref("night_override")
+        .set(isNight)
+        .then(() => console.log("🌙 Night override set:", isNight))
+        .catch((err) => console.error("Error:", err));
+    }
+
+    // === Live UI Range Update ===
+    ["happiness", "energy", "calmness", "pain"].forEach((id) => {
+      const input = document.getElementById(id);
+      const output = document.getElementById(`${id}-value`);
+      input.addEventListener("input", () => {
+        output.textContent = input.value;
+      });
+    });
+  </script>
+>>>>>>> d3b4124 (🧹 Add Firebase credential file to .gitignore)
 </body>
 </html>
