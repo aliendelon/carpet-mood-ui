@@ -6,19 +6,20 @@
   <title>Mood Control Panel</title>
   <style>
     body {
-      font-family: sans-serif;
-      max-width: 600px;
+      font-family: "Inter", sans-serif;
+      max-width: 650px;
       margin: 40px auto;
-      padding: 20px;
+      padding: 24px;
       background-color: #f8f8f8;
       color: #333;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      border-radius: 14px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
     }
 
     h2 {
       text-align: center;
       margin-bottom: 30px;
+      font-size: 1.6rem;
     }
 
     .slider-group {
@@ -29,7 +30,7 @@
       display: flex;
       justify-content: space-between;
       margin-bottom: 5px;
-      font-weight: bold;
+      font-weight: 600;
     }
 
     input[type="range"] {
@@ -50,17 +51,20 @@
     button {
       margin-top: 20px;
       width: 100%;
-      padding: 12px;
+      padding: 14px;
       font-size: 16px;
-      background-color: #0066ff;
+      font-weight: 600;
+      background: linear-gradient(135deg, #0066ff, #3388ff);
       color: white;
       border: none;
-      border-radius: 5px;
+      border-radius: 8px;
       cursor: pointer;
+      transition: transform 0.15s ease, background 0.2s ease;
     }
 
     button:hover {
-      background-color: #004fcc;
+      background: linear-gradient(135deg, #004fcc, #227acc);
+      transform: translateY(-2px);
     }
 
     .night-toggle {
@@ -71,6 +75,32 @@
       font-weight: bold;
     }
 
+    /* Phase toggles row */
+    .phase-toggles {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin: 25px 0;
+    }
+
+    .phase-btn {
+      padding: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      border: none;
+      border-radius: 20px;
+      background-color: #eee;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+
+    .phase-btn:hover {
+      background-color: #0066ff;
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
     @media (prefers-color-scheme: dark) {
       body {
         background-color: #1a1a1a;
@@ -78,11 +108,21 @@
       }
 
       button {
-        background-color: #3399ff;
+        background: linear-gradient(135deg, #3399ff, #227acc);
       }
 
       button:hover {
-        background-color: #227acc;
+        background: linear-gradient(135deg, #1f6fd0, #195a9e);
+      }
+
+      .phase-btn {
+        background-color: #333;
+        color: #ddd;
+      }
+
+      .phase-btn:hover {
+        background-color: #3399ff;
+        color: #fff;
       }
     }
   </style>
@@ -90,6 +130,7 @@
 <body>
   <h2>🎛️ Mood Input Panel</h2>
 
+  <!-- Sliders -->
   <div class="slider-group">
     <label for="happiness">Happiness: <span id="happiness-value">50</span></label>
     <input type="range" id="happiness" min="0" max="100" value="50" />
@@ -110,6 +151,20 @@
     <input type="range" id="pain" min="0" max="100" value="0" />
   </div>
 
+  <!-- Quick Phase Toggles -->
+  <h3>⚡ Quick Phase Presets</h3>
+  <div class="phase-toggles">
+    <button class="phase-btn" onclick="setPhase('creative')">Креативное мышление</button>
+    <button class="phase-btn" onclick="setPhase('rest')">Отдых</button>
+    <button class="phase-btn" onclick="setPhase('observation')">Наблюдение</button>
+    <button class="phase-btn" onclick="setPhase('memory')">Воспоминания</button>
+    <button class="phase-btn" onclick="setPhase('conflict')">Конфликт</button>
+    <button class="phase-btn" onclick="setPhase('intuition')">Интуиция</button>
+    <button class="phase-btn" onclick="setPhase('transformation')">Трансформация</button>
+    <button class="phase-btn" onclick="setPhase('emptiness')">Пустота</button>
+  </div>
+
+  <!-- Layout -->
   <div class="layout-group">
     Layout:
     <label><input type="radio" name="layout" value="layout1" checked /> layout1</label>
@@ -156,12 +211,8 @@
         timestamp: Date.now()
       };
 
-      // Send mood
       db.ref("mood").set(mood)
-        .then(() => {
-          // Send layout
-          return db.ref("current_layout_name").set(selectedLayout);
-        })
+        .then(() => db.ref("current_layout_name").set(selectedLayout))
         .then(() => alert("✅ Mood and layout sent to Firebase!"))
         .catch((err) => alert("❌ Error: " + err));
     }
@@ -183,6 +234,40 @@
         output.textContent = input.value;
       });
     });
+
+    // === Phase Preset Logic ===
+    function setPhase(phase) {
+      let values = {h:50, e:50, c:50, p:0}; // defaults
+
+      switch (phase) {
+        case "creative":
+          values = {h:75, e:70, c:40, p:20}; break;
+        case "rest":
+          values = {h:50, e:25, c:75, p:10}; break;
+        case "observation":
+          values = {h:55, e:40, c:70, p:20}; break;
+        case "memory":
+          values = {h:40, e:45, c:65, p:30}; break;
+        case "conflict":
+          values = {h:35, e:45, c:40, p:70}; break;
+        case "intuition":
+          values = {h:70, e:45, c:70, p:30}; break;
+        case "transformation":
+          values = {h:60, e:65, c:45, p:50}; break;
+        case "emptiness":
+          values = {h:25, e:20, c:40, p:20}; break;
+      }
+
+      document.getElementById("happiness").value = values.h;
+      document.getElementById("energy").value = values.e;
+      document.getElementById("calmness").value = values.c;
+      document.getElementById("pain").value = values.p;
+
+      document.getElementById("happiness-value").textContent = values.h;
+      document.getElementById("energy-value").textContent = values.e;
+      document.getElementById("calmness-value").textContent = values.c;
+      document.getElementById("pain-value").textContent = values.p;
+    }
   </script>
 </body>
 </html>
