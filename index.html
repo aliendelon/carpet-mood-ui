@@ -6,129 +6,213 @@
   <title>Mood Control Panel</title>
   <style>
     body {
-      font-family: "Inter", sans-serif;
-      max-width: 650px;
-      margin: 40px auto;
-      padding: 24px;
-      background-color: #f8f8f8;
-      color: #333;
-      border-radius: 14px;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
-    }
+  font-family: "Inter", sans-serif;
+  max-width: 650px;
+  margin: 40px auto;
+  padding: 24px;
+  background-color: #f8f8f8;
+  color: #333;
+  border-radius: 14px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
 
-    h2 {
-      text-align: center;
-      margin-bottom: 30px;
-      font-size: 1.6rem;
-    }
+h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 1.6rem;
+}
 
-    .slider-group {
-      margin-bottom: 20px;
-    }
+.slider-group {
+  margin-bottom: 20px;
+}
 
-    label {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 5px;
-      font-weight: 600;
-    }
+label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+  font-weight: 300;
+}
 
-    input[type="range"] {
-      width: 100%;
-    }
+input[type="range"] {
+  width: 100%;
+}
 
-    .layout-group {
-      margin-top: 20px;
-      margin-bottom: 20px;
-      font-weight: bold;
-    }
+.layout-group {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
 
-    .layout-group label {
-      display: inline-block;
-      margin-right: 10px;
-    }
+.layout-group label {
+  display: inline-block;
+  margin-right: 10px;
+}
 
-    button {
-      margin-top: 20px;
-      width: 100%;
-      padding: 14px;
-      font-size: 16px;
-      font-weight: 600;
-      background: linear-gradient(135deg, #0066ff, #3388ff);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: transform 0.15s ease, background 0.2s ease;
-    }
+button {
+  margin-top: 20px;
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  background: linear-gradient(135deg, #0066ff, #3388ff);
+  color: white;
+  border: 2px solid;
+  border-radius: 0px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
 
-    button:hover {
-      background: linear-gradient(135deg, #004fcc, #227acc);
-      transform: translateY(-2px);
-    }
+button:hover {
+  background-color: darkturquoise;
+}
 
-    .night-toggle {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-top: 20px;
-      font-weight: bold;
-    }
+.night-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+  font-weight: bold;
+}
 
-    /* Phase toggles row */
-    .phase-toggles {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 12px;
-      margin: 25px 0;
-    }
+/* Phase toggles row */
 
-    .phase-btn {
-      padding: 10px;
-      font-size: 14px;
-      font-weight: 500;
-      border: none;
-      border-radius: 20px;
-      background-color: #eee;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      text-align: center;
-    }
+.phase-toggles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin: 25px 0;
+}
 
-    .phase-btn:hover {
-      background-color: #0066ff;
-      color: #fff;
-      transform: translateY(-2px);
-    }
+.phase-btn {
+  padding: 10px;
+  font-size: 15px;
+  font-weight: 300;
+  border: none;
+  border-radius: 0px;
+  background-color: #eee;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+  border-style: solid;
+  border-width: 2px;
+  font-family: "Inter", sans-serif;
+  transition: all 0.3s ease;
+}
 
-    @media (prefers-color-scheme: dark) {
-      body {
-        background-color: #1a1a1a;
-        color: #ddd;
-      }
+.phase-btn:hover {
+  background-color: #fff;
+  color: #fff;
+}
 
-      button {
-        background: linear-gradient(135deg, #3399ff, #227acc);
-      }
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #1a1a1a;
+    color: #ddd;
+  }
+}
 
-      button:hover {
-        background: linear-gradient(135deg, #1f6fd0, #195a9e);
-      }
+@media (prefers-color-scheme: dark) {
+  button {
+    background: transparent;
+  }
+}
 
-      .phase-btn {
-        background-color: #333;
-        color: #ddd;
-      }
+@media (prefers-color-scheme: dark) {
+  button:hover {
+    background: linear-gradient(135deg, #1f6fd0, #195a9e);
+  }
+}
 
-      .phase-btn:hover {
-        background-color: #3399ff;
-        color: #fff;
-      }
-    }
+@media (prefers-color-scheme: dark) {
+  .phase-btn {
+    background-color: var(--bs-border-color-translucent);
+    color: #ddd;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .phase-btn:hover {
+    background-color: #fff;
+    color: #fff;
+  }
+}
+
+/* ********** Baseline, reset styles ********** */
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* Removes default focus */
+
+input[type="range"]:focus {
+  outline: none;
+}
+
+/* ******* Chrome, Safari, Opera and Edge Chromium styles ******* */
+
+/* slider track */
+
+input[type="range"]::-webkit-slider-runnable-track {
+  background-color: #ffffff;
+  border-radius: 0rem;
+  height: .8rem;
+}
+
+/* slider thumb */
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  margin-top: 0px;
+  background-color: #000000;
+  border-radius: 0rem;
+  height: .8rem;
+  width: 1rem;
+}
+
+input[type="range"]:focus::-webkit-slider-thumb {
+  outline: 3px solid #000000;
+  outline-offset: 0.125rem;
+}
+
+/* ********** Firefox styles ********** */
+
+/* slider track */
+
+input[type="range"]::-moz-range-track {
+  background-color: #ffffff;
+  border-radius: 0rem;
+  height: .8rem;
+}
+
+/* slider thumb */
+
+input[type="range"]::-moz-range-thumb {
+  background-color: #000000;
+  border: none;
+  border-radius: 0rem;
+  height: .8rem;
+  width: 1rem;
+}
+
+input[type="range"]:focus::-moz-range-thumb {
+  outline: 3px solid #000000;
+  outline-offset: 0.125rem;
+}
+	  
+.phase-btn.active {
+  background-color: #0066ff;
+  color: #fff;
+}
+
   </style>
 </head>
 <body>
-  <h2>🎛️ Mood Input Panel</h2>
+  <h2>Mood Input Panel</h2>
 
   <!-- Sliders -->
   <div class="slider-group">
@@ -147,25 +231,23 @@
   </div>
 
   <div class="slider-group">
-    <label for="pain">Pain Level: <span id="pain-value">0</span></label>
+    <label for="pain">Pain: <span id="pain-value">0</span></label>
     <input type="range" id="pain" min="0" max="100" value="0" />
   </div>
 
   <!-- Quick Phase Toggles -->
-  <h3>⚡ Quick Phase Presets</h3>
   <div class="phase-toggles">
-    <button class="phase-btn" onclick="setPhase('creative')">Креативное мышление</button>
-    <button class="phase-btn" onclick="setPhase('rest')">Отдых</button>
-    <button class="phase-btn" onclick="setPhase('observation')">Наблюдение</button>
-    <button class="phase-btn" onclick="setPhase('memory')">Воспоминания</button>
-    <button class="phase-btn" onclick="setPhase('conflict')">Конфликт</button>
-    <button class="phase-btn" onclick="setPhase('intuition')">Интуиция</button>
-    <button class="phase-btn" onclick="setPhase('transformation')">Трансформация</button>
-    <button class="phase-btn" onclick="setPhase('emptiness')">Пустота</button>
+    <button class="phase-btn" onclick="setPhase('creative')">Creative Thinking</button>
+    <button class="phase-btn" onclick="setPhase('rest')">Rest</button>
+    <button class="phase-btn" onclick="setPhase('observation')">Observation</button>
+    <button class="phase-btn" onclick="setPhase('memory')">Memory</button>
+    <button class="phase-btn" onclick="setPhase('conflict')">Conflict</button>
+    <button class="phase-btn" onclick="setPhase('transformation')">Transformation</button>
+    <button class="phase-btn" id="nightBtn">Night</button>
   </div>
 
   <!-- Layout -->
-  <div class="layout-group">
+  <div class="layout-group" style="display:none;">
     Layout:
     <label><input type="radio" name="layout" value="layout1" checked /> layout1</label>
     <label><input type="radio" name="layout" value="layout2" /> layout2</label>
@@ -173,11 +255,10 @@
     <label><input type="radio" name="layout" value="layout4" /> layout4</label>
   </div>
 
-  <button onclick="sendMood()">📤 Send Mood & Layout</button>
+  <button onclick="sendMood()">Send</button>
 
   <div class="night-toggle">
-    <label for="night">🌙 Night Mode:</label>
-    <input type="checkbox" id="night" onchange="toggleNightMode()" />
+    <input type="checkbox" id="night" onchange="toggleNightMode()" hidden/>
   </div>
 
   <!-- Firebase SDKs -->
@@ -213,7 +294,7 @@
 
       db.ref("mood").set(mood)
         .then(() => db.ref("current_layout_name").set(selectedLayout))
-        .then(() => alert("✅ Mood and layout sent to Firebase!"))
+        .then(() => alert("Sent"))
         .catch((err) => alert("❌ Error: " + err));
     }
 
@@ -268,6 +349,29 @@
       document.getElementById("calmness-value").textContent = values.c;
       document.getElementById("pain-value").textContent = values.p;
     }
+	  
+const nightCheckbox = document.getElementById("night");
+const nightBtn = document.getElementById("nightBtn");
+
+function applyNightState(isNight) {
+  nightCheckbox.checked = isNight;
+  nightBtn.classList.toggle("active", isNight);
+
+  db.ref("night_override")
+    .set(isNight)
+    .then(() => console.log("Night override:", isNight))
+    .catch(err => console.error(err));
+}
+
+// Button click toggles checkbox
+nightBtn.addEventListener("click", () => {
+  applyNightState(!nightCheckbox.checked);
+});
+
+// (Optional) If checkbox is ever changed manually
+nightCheckbox.addEventListener("change", () => {
+  applyNightState(nightCheckbox.checked);
+});
   </script>
 </body>
 </html>
